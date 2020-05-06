@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component} from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Timer extends Component {
+  constructor(props) {
+      super(props)
+      this.state = {
+          count: 0,
+          startCount: '100'
+      }
+  }
+
+  render() {
+    const {count} = this.state
+    return (
+      <div className="App">
+          <h1>Time Remaining: {count}</h1>
+          <button onClick={this.handlePause}>Pause</button>
+      </div>
+      )
+    }
+
+    componentDidMount() {
+    //   this.myInterval = setInterval( () => {
+    //     this.setState({
+    //       count: this.state.count + 1
+    //     })
+    // }, 1000)
+    // const {startCount} = this.state.startCount
+    this.setState({
+      count: this.state.startCount
+    })
+    this.doIntervalChange()
+  }
+
+  doIntervalChange = () => {
+    this.myInterval = setInterval( () => {
+      this.setState(prevState => ({
+        count: prevState.count - 1
+      }))
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.myInterval)
+  }
+
+  handlePause = () => {
+    console.log("CLICKED")
+  }
 }
 
-export default App;
+export default Timer
